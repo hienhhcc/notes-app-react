@@ -44,6 +44,8 @@ export default defineConfig([
       ...reactRefresh.configs.vite.rules,
       // prefer TS version of no-unused-vars
       "no-unused-vars": "off",
+      "react-refresh/only-export-components": ["off"],
+      "@typescript-eslint/no-explicit-any": ["off"],
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { varsIgnorePattern: "^[A-Z_]" },
