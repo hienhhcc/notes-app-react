@@ -25,7 +25,7 @@ export function AddNoteButtonDialog() {
     if (!open) {
       methods.reset();
     }
-  }, []);
+  }, [methods, open]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

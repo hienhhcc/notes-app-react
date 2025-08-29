@@ -31,7 +31,7 @@ export default function useNoteForm() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [handleSubmit]);
 
   return { control, methods, onSubmit };
 }

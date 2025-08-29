@@ -10,10 +10,13 @@ import { defineConfig, globalIgnores } from "eslint/config";
 export default defineConfig([
   globalIgnores(["dist"]),
   {
-    files: ["**/**/*.{js,jsx,ts,tsx}"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
       parser: tsparser,
-      parserOptions: { ecmaFeatures: { jsx: true }, sourceType: "module" },
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        sourceType: "module",
+      },
       globals: globals.browser,
     },
     plugins: {
@@ -21,22 +24,33 @@ export default defineConfig([
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
     },
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      reactHooks.configs["recommended-latest"], // includes exhaustive-deps
-      reactRefresh.configs.vite,
-    ],
+    // extends: [
+    //   js.configs.recommended, // base JS rules
+    //   // ...tseslint.configs.recommended, // <-- no spread here
+    //   reactHooks.configs["recommended-latest"], // includes exhaustive-deps
+    //   reactRefresh.configs.vite, // good DX for Vite + React
+    // ],
     rules: {
-      // prefer TS version of the rule:
+      // base JS
+      ...js.configs.recommended.rules,
+
+      // TypeScript recommended (non type-aware)
+      ...tseslint.configs.recommended.rules,
+
+      // React Hooks recommended (includes exhaustive-deps)
+      ...reactHooks.configs["recommended-latest"].rules,
+
+      // Vite React Fast Refresh suggestions
+      ...reactRefresh.configs.vite.rules,
+      // prefer TS version of no-unused-vars
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         { varsIgnorePattern: "^[A-Z_]" },
       ],
 
-      // make the hook deps rule loud if you want:
-      "react-hooks/exhaustive-deps": "error",
+      // make missing deps loud if you want
+      "react-hooks/exhaustive-deps": "warn",
     },
   },
 ]);
