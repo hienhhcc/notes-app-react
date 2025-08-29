@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { AddNoteButtonDialog } from "@/components/AddNoteButtonDialog";
 
 export default function Header() {
   return (
@@ -14,10 +13,7 @@ export default function Header() {
           </h1>
         </div>
 
-        <Button className="cursor-pointer">
-          <PlusIcon />
-          New note
-        </Button>
+        <AddNoteButtonDialog />
       </div>
     </header>
   );
