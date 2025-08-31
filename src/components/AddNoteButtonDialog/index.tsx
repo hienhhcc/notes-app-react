@@ -17,10 +17,13 @@ import useNoteForm from "@/hooks/useNoteForm";
 import { Loader2Icon, PlusIcon } from "lucide-react";
 import { ComponentProps, useEffect, useState } from "react";
 
-export function AddNoteButtonDialog({
+type AddEditNoteButtonDialogProps = ComponentProps<"button"> &
+  MainContentProps & { edit?: boolean };
+
+export function AddEditNoteButtonDialog({
   handleSetNextTick,
   ...props
-}: ComponentProps<"button"> & MainContentProps) {
+}: AddEditNoteButtonDialogProps) {
   const [open, setOpen] = useState(false);
 
   const handleCloseDialog = () => {

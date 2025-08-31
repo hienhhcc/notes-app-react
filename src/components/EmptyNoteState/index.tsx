@@ -1,4 +1,4 @@
-import { AddNoteButtonDialog } from "@/components/AddNoteButtonDialog";
+import { AddEditNoteButtonDialog } from "@/components/AddNoteButtonDialog";
 import { MainContentProps } from "@/components/MainContent";
 
 export default function EmptyNotesState({
@@ -10,9 +10,9 @@ export default function EmptyNotesState({
       <p className="mt-2 mb-4 text-zinc-600">
         Create your first note to get started.
       </p>
-      <AddNoteButtonDialog handleSetNextTick={handleSetNextTick}>
+      <AddEditNoteButtonDialog handleSetNextTick={handleSetNextTick}>
         Add a note
-      </AddNoteButtonDialog>
+      </AddEditNoteButtonDialog>
     </div>
   );
 }

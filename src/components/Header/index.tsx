@@ -1,4 +1,4 @@
-import { AddNoteButtonDialog } from "@/components/AddNoteButtonDialog";
+import { AddEditNoteButtonDialog } from "@/components/AddNoteButtonDialog";
 import { MainContentProps } from "@/components/MainContent";
 
 export default function Header({ handleSetNextTick }: MainContentProps) {
@@ -14,7 +14,7 @@ export default function Header({ handleSetNextTick }: MainContentProps) {
           </h1>
         </div>
 
-        <AddNoteButtonDialog handleSetNextTick={handleSetNextTick} />
+        <AddEditNoteButtonDialog handleSetNextTick={handleSetNextTick} />
       </div>
     </header>
   );
