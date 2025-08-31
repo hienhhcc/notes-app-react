@@ -14,9 +14,9 @@ import {
 import { Form } from "@/components/ui/form";
 import useNoteForm from "@/hooks/useNoteForm";
 import { PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 
-export function AddNoteButtonDialog() {
+export function AddNoteButtonDialog(props: ComponentProps<"button">) {
   const { control, methods, onSubmit } = useNoteForm();
 
   const [open, setOpen] = useState(false);
@@ -30,9 +30,9 @@ export function AddNoteButtonDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button {...props}>
           <PlusIcon />
-          New note
+          {props?.children ? props.children : "New note"}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md p-0">
