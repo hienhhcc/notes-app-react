@@ -1,6 +1,7 @@
 import NoteContentTextarea from "@/components/AddNoteButtonDialog/NoteContentTextarea";
 import NoteTitleFormField from "@/components/AddNoteButtonDialog/NoteTitleInput";
 import SaveNoteButton from "@/components/AddNoteButtonDialog/SaveNoteButton";
+import { MainContentProps } from "@/components/MainContent";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,11 +14,16 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import useNoteForm from "@/hooks/useNoteForm";
-import { PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
 import { ComponentProps, useEffect, useState } from "react";
 
-export function AddNoteButtonDialog(props: ComponentProps<"button">) {
-  const { control, methods, onSubmit } = useNoteForm();
+export function AddNoteButtonDialog({
+  handleSetNextTick,
+  ...props
+}: ComponentProps<"button"> & MainContentProps) {
+  const { isSubmitting, control, methods, onSubmit } = useNoteForm({
+    handleSetNextTick,
+  });
 
   const [open, setOpen] = useState(false);
 
@@ -30,8 +36,12 @@ export function AddNoteButtonDialog(props: ComponentProps<"button">) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button {...props}>
-          <PlusIcon />
+        <Button {...props} disabled={isSubmitting}>
+          {isSubmitting ? (
+            <Loader2Icon className="animate-spin" />
+          ) : (
+            <PlusIcon />
+          )}
           {props?.children ? props.children : "New note"}
         </Button>
       </DialogTrigger>

@@ -1,10 +1,11 @@
+import { invalidateNotes, MainContentProps } from "@/components/MainContent";
 import { API_URL } from "@/environments";
 import { NoteFormType, noteSchema } from "@/schemas/note-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function useNoteForm() {
+export default function useNoteForm({ handleSetNextTick }: MainContentProps) {
   const methods = useForm<NoteFormType>({
     defaultValues: {
       title: "",
@@ -13,34 +14,39 @@ export default function useNoteForm() {
     resolver: zodResolver(noteSchema),
   });
 
-  const { control, handleSubmit } = methods;
+  const { control, formState, handleSubmit } = methods;
+  const { isSubmitting } = formState;
 
-  const onSubmit = async (values: NoteFormType) => {
-    try {
-      const response = await fetch(`${API_URL}/notes`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...values,
-        }),
-      });
+  const onSubmit = useCallback(
+    async (values: NoteFormType) => {
+      try {
+        const response = await fetch(`${API_URL}/notes`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...values,
+          }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Some thing wrong when adding note!");
+        if (!response.ok) {
+          throw new Error("Some thing wrong when adding note!");
+        }
+
+        const json = await response.json();
+
+        if (json.success) {
+          invalidateNotes();
+          handleSetNextTick();
+        }
+      } catch (err) {
+        console.error("Fetch failed", err);
+        return null;
       }
-
-      const json = await response.json();
-
-      if (json.success) {
-        alert("add note success");
-      }
-    } catch (err) {
-      console.error("Fetch failed", err);
-      return null;
-    }
-  };
+    },
+    [handleSetNextTick]
+  );
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -55,7 +61,7 @@ export default function useNoteForm() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleSubmit]);
+  }, [handleSubmit, onSubmit]);
 
-  return { control, methods, onSubmit };
+  return { control, methods, isSubmitting, onSubmit };
 }

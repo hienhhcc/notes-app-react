@@ -1,6 +1,7 @@
 import { AddNoteButtonDialog } from "@/components/AddNoteButtonDialog";
+import { MainContentProps } from "@/components/MainContent";
 
-export default function Header() {
+export default function Header({ handleSetNextTick }: MainContentProps) {
   return (
     <header className="px-4 py-4 border-b">
       <div className="container mx-auto flex items-center justify-between ">
@@ -13,7 +14,7 @@ export default function Header() {
           </h1>
         </div>
 
-        <AddNoteButtonDialog />
+        <AddNoteButtonDialog handleSetNextTick={handleSetNextTick} />
       </div>
     </header>
   );
