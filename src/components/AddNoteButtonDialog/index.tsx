@@ -21,11 +21,16 @@ export function AddNoteButtonDialog({
   handleSetNextTick,
   ...props
 }: ComponentProps<"button"> & MainContentProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+
   const { isSubmitting, control, methods, onSubmit } = useNoteForm({
+    handleCloseDialog,
     handleSetNextTick,
   });
-
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (!open) {

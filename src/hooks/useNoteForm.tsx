@@ -5,7 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function useNoteForm({ handleSetNextTick }: MainContentProps) {
+type UseNoteFormProps = MainContentProps & { handleCloseDialog: () => void };
+
+export default function useNoteForm({
+  handleSetNextTick,
+  handleCloseDialog,
+}: UseNoteFormProps) {
   const methods = useForm<NoteFormType>({
     defaultValues: {
       title: "",
@@ -39,13 +44,14 @@ export default function useNoteForm({ handleSetNextTick }: MainContentProps) {
         if (json.success) {
           invalidateNotes();
           handleSetNextTick();
+          handleCloseDialog();
         }
       } catch (err) {
         console.error("Fetch failed", err);
         return null;
       }
     },
-    [handleSetNextTick]
+    [handleCloseDialog, handleSetNextTick]
   );
 
   useEffect(() => {
