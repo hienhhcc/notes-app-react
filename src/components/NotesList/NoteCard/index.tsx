@@ -1,4 +1,5 @@
 import { AddEditNoteButtonDialog } from "@/components/AddEditNoteButtonDialog";
+import DeleteNoteButtonDialog from "@/components/DeleteNoteButtonDialog";
 import { MainContentProps } from "@/components/MainContent";
 import { Button } from "@/components/ui/button";
 import { Note } from "@/types";
@@ -28,9 +29,10 @@ export default function NoteCard({
             content={content}
             handleSetNextTick={handleSetNextTick}
           />
-          <Button variant="destructive" size="sm" aria-label="Delete">
-            <TrashIcon /> Delete
-          </Button>
+          <DeleteNoteButtonDialog
+            id={id}
+            handleSetNextTick={handleSetNextTick}
+          />
         </div>
       </div>
       <p className="mt-3 text-sm text-zinc-700 line-clamp-4 whitespace-pre-wrap">

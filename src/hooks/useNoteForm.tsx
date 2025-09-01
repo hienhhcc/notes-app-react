@@ -32,8 +32,10 @@ export default function useNoteForm({
     async (values: NoteFormType) => {
       const method = edit ? "PATCH" : "POST";
 
+      const url = edit ? `${API_URL}/notes/${values.id}` : `${API_URL}/notes`;
+
       try {
-        const response = await fetch(`${API_URL}/notes`, {
+        const response = await fetch(url, {
           method: method,
           headers: {
             "Content-Type": "application/json",
