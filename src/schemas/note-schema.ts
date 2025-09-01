@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const noteSchema = z.object({
+  id: z.string().optional(),
   title: z
     .string()
     .min(6, "Title must be at least 6 characters")

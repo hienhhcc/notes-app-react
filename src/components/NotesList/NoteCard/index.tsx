@@ -1,10 +1,19 @@
+import { AddEditNoteButtonDialog } from "@/components/AddEditNoteButtonDialog";
+import { MainContentProps } from "@/components/MainContent";
 import { Button } from "@/components/ui/button";
 import { Note } from "@/types";
-import { EditIcon, TrashIcon } from "lucide-react";
+import { TrashIcon } from "lucide-react";
 
-type NoteCardProps = Pick<Note, "title" | "content" | "updatedAt">;
+type NoteCardProps = Pick<Note, "id" | "title" | "content" | "updatedAt"> &
+  MainContentProps;
 
-export default function NoteCard({ title, content, updatedAt }: NoteCardProps) {
+export default function NoteCard({
+  id,
+  title,
+  content,
+  updatedAt,
+  handleSetNextTick,
+}: NoteCardProps) {
   return (
     <article className="group rounded-3xl border border-zinc-200/70 bg-white/70  p-4 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex justify-between items-center gap-3">
@@ -12,9 +21,13 @@ export default function NoteCard({ title, content, updatedAt }: NoteCardProps) {
           {title}
         </h2>
         <div className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 inline-flex gap-1">
-          <Button variant="secondary" size="sm" aria-label="Edit">
-            <EditIcon /> Edit
-          </Button>
+          <AddEditNoteButtonDialog
+            edit
+            id={id}
+            title={title}
+            content={content}
+            handleSetNextTick={handleSetNextTick}
+          />
           <Button variant="destructive" size="sm" aria-label="Delete">
             <TrashIcon /> Delete
           </Button>

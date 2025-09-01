@@ -5,14 +5,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-type UseNoteFormProps = MainContentProps & { handleCloseDialog: () => void };
+type UseNoteFormProps = MainContentProps & {
+  defaultNote?: { title?: string; content?: string; id?: string } | null;
+  edit: boolean;
+  handleCloseDialog: () => void;
+};
 
 export default function useNoteForm({
+  defaultNote,
+  edit,
   handleSetNextTick,
   handleCloseDialog,
 }: UseNoteFormProps) {
   const methods = useForm<NoteFormType>({
-    defaultValues: {
+    defaultValues: defaultNote ?? {
       title: "",
       content: "",
     },
@@ -24,9 +30,11 @@ export default function useNoteForm({
 
   const onSubmit = useCallback(
     async (values: NoteFormType) => {
+      const method = edit ? "PATCH" : "POST";
+
       try {
         const response = await fetch(`${API_URL}/notes`, {
-          method: "POST",
+          method: method,
           headers: {
             "Content-Type": "application/json",
           },
@@ -36,7 +44,9 @@ export default function useNoteForm({
         });
 
         if (!response.ok) {
-          throw new Error("Some thing wrong when adding note!");
+          throw new Error(
+            `Something went wrong when ${edit ? "editing" : "adding"} note`
+          );
         }
 
         const json = await response.json();
@@ -51,7 +61,7 @@ export default function useNoteForm({
         return null;
       }
     },
-    [handleCloseDialog, handleSetNextTick]
+    [edit, handleCloseDialog, handleSetNextTick]
   );
 
   useEffect(() => {

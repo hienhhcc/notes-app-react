@@ -1,4 +1,4 @@
-import { AddEditNoteButtonDialog } from "@/components/AddNoteButtonDialog";
+import { AddEditNoteButtonDialog } from "@/components/AddEditNoteButtonDialog";
 import { MainContentProps } from "@/components/MainContent";
 
 export default function EmptyNotesState({

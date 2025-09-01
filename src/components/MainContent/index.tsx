@@ -36,5 +36,7 @@ export default function MainContent({ handleSetNextTick }: MainContentProps) {
     return <EmptyNotesState handleSetNextTick={handleSetNextTick} />;
   }
 
-  return <NotesList notes={response.notes} />;
+  return (
+    <NotesList notes={response.notes} handleSetNextTick={handleSetNextTick} />
+  );
 }
